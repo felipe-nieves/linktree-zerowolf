@@ -3,11 +3,11 @@ name: Update Site
 on:
   push:
     branches:
-      - main  # Trigger on pushes to the main branch
+      - main 
 
 jobs:
   upload:
-    runs-on: ubuntu-latest  # Use an Ubuntu runner
+    runs-on: 
 
     steps:
       - name: Check out repository
@@ -15,8 +15,8 @@ jobs:
         with:
           fetch-depth: 2
 
-      - name: Install AWS CLI
-        run: sudo apt-get update && sudo apt-get install awscli
+      #- name: Install AWS CLI
+        #run: sudo apt-get update && sudo apt-get install awscli
         
       - name: Configure AWS
         env:
@@ -33,6 +33,7 @@ jobs:
           S3_BUCKET: ${{ secrets.S3_BUCKET }}
           DISTRIBUTION_ID: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
         run: |
+          echo "AWS CLI VERSION: $(aws --version)"
           FILES="index.html style.css images/profile.png"
           CHANGED_FILES=$(git diff --name-only HEAD^ HEAD)
           SHOULD_INVALIDATE="false"
@@ -42,6 +43,8 @@ jobs:
               echo "Uploading ${FILE}"
               aws s3 cp "${FILE}" "s3://$S3_BUCKET/${FILE}"
               SHOULD_INVALIDATE="true"
+            else
+              echo "No changes to ${FILE}"
             fi
           done
 
