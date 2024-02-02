@@ -14,9 +14,6 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 2
-
-      #- name: Install AWS CLI
-        #run: sudo apt-get update && sudo apt-get install awscli
         
       - name: Configure AWS
         env:
