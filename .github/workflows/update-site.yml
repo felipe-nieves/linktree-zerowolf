@@ -1,0 +1,51 @@
+name: Update Site
+
+on:
+  push:
+    branches:
+      - main  # Trigger on pushes to the main branch
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest  # Use an Ubuntu runner
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+
+      - name: Install AWS CLI
+        run: sudo apt-get install awscli
+        
+      - name: Configure AWS
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+        run: |
+          aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+          aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+          aws configure set default.region $AWS_REGION
+      
+      - name: Upload site files
+        env:
+          S3_BUCKET: ${{ secrets.S3_BUCKET }}
+          DISTRIBUTION_ID: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
+        run: |
+          FILES="index.html style.css images/profile.png"
+          CHANGED_FILES=$(git diff --name-only HEAD^ HEAD)
+          SHOULD_INVALIDATE="false"
+          
+          for FILE in $FILES; do
+            if echo "$CHANGED_FILES" | grep -q "^${FILE}$"; then
+              echo "Uploading ${FILE}"
+              aws s3 cp "${FILE}" "s3://$S3_BUCKET/${FILE}"
+              SHOULD_INVALIDATE="true"
+            fi
+          done
+
+          if [ "$SHOULD_INVALIDATE" = "true" ]; then
+            echo "Invalidating CloudFront distribution"
+            aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths /index.html /style.css /images/profile.png
+          else
+            echo "No relevant changes, skipping invalidation"
+          fi
