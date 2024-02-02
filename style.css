@@ -24,18 +24,6 @@ body {
     position: relative;
 }
 
-details {
-    text-align: center;
-    color: var(--accentColor);
-}
-
-details>summary {
-    font-size: 2rem;
-    text-align: center;
-    color: var(--accentColor);
-    list-style: none;
-}
-
 #profilePicture,
 #profilePicture img {
     position: relative;
@@ -60,7 +48,7 @@ details>summary {
 }
 
 #links {
-    max-width: 675px;
+    max-width: 500px;
     width: auto;
     display: block;
     margin: 27px auto;
@@ -118,16 +106,49 @@ details>summary {
     -webkit-text-fill-color: rgba(255, 255, 255, 0);*/
 }
 
-details>summary {
-    cursor: pointer;
+details {
+    margin-bottom: 5px;
 }
 
-details>summary>i.fas {
+details>summary {
+    cursor: pointer;
+    background-color: transparent;
+    color: var(--accentColor);
+    font-size: 1rem;
+    list-style: none;
+    position: relative;
+    border: solid var(--accentColor) 2px;
+    border-radius: 10px;
+    text-align: center;
+    display: block;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+    /* 17px */
+    text-decoration: none;
+    /* transition: all .25s cubic-bezier(.08, .59, .29, .99); */
+    -webkit-tap-highlight-color: transparent;
+    transition: background-color 0.5s linear, color 0.5s linear;
+}
+
+/* summary>i {
+    margin-right: 8px;
+    margin-bottom: 10px;
+} */
+
+/* details>summary>i.fas {
     transition: transform 0.5s ease;
+
 }
 
 details[open]>summary>i.fas {
     transform: rotate(90deg);
+} */
+
+details[open] summary {
+    background-color: var(--accentColor);
+    color: var(--bgColor2);
 }
 
 details[open] summary~* {
