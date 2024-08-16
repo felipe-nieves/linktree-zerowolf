@@ -1,3 +1,3 @@
 # linktree
 
-Publicly accessible at [nieves.contact](https://nieves.contact)
+Publicly accessible at [zerowolf.net](https://zerowolf.net)
