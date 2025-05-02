@@ -27,11 +27,9 @@ body {
 #profilePicture,
 #profilePicture img {
     position: relative;
-    width: 180px;
-    height: 180px;
+    width: 300px;
     display: block;
     margin: 40px auto 20px;
-    border-radius: 50%;
     -webkit-tap-highlight-color: transparent;
 }
 
@@ -112,7 +110,7 @@ details {
 
 details>summary {
     cursor: pointer;
-    background-color: transparent;
+    background-color: black;
     color: var(--accentColor);
     font-size: 1rem;
     list-style: none;
@@ -132,12 +130,17 @@ details>summary {
     transition: background-color 0.5s linear, color 0.5s linear;
 }
 
+details>summary:hover {
+    background-color: var(--accentColor);
+    color: var(--bgColor);
+}
+
 /* summary>i {
     margin-right: 8px;
     margin-bottom: 10px;
-} */
+} 
 
-/* details>summary>i.fas {
+details>summary>i.fas {
     transition: transform 0.5s ease;
 
 }
