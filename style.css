@@ -29,7 +29,8 @@ body {
     position: relative;
     width: 300px;
     display: block;
-    margin: 40px auto 20px;
+    margin: auto auto 20px;
+    padding-top: 20px;
     -webkit-tap-highlight-color: transparent;
 }
 
